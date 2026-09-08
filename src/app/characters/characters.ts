@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 import type { Character } from '../models/character.model';
@@ -11,15 +11,72 @@ import type { Character } from '../models/character.model';
   templateUrl: './characters.html',
   styleUrl: './characters.css',
 })
-export class Characters implements OnInit {
+export class Characters implements OnInit, OnDestroy {
   protected characters: Character[] = [];
+
+  protected get canCreateNewCharacter(): boolean {
+    return this.characters.length < 3;
+  }
 
   ngOnInit(): void {
     this.loadCharacters();
+    window.addEventListener('trace-personagens-updated', this.handleStorageUpdate);
   }
+
+  ngOnDestroy(): void {
+    window.removeEventListener('trace-personagens-updated', this.handleStorageUpdate);
+  }
+
+  private readonly handleStorageUpdate = (): void => {
+    this.loadCharacters();
+  };
 
   protected loadCharacters(): void {
     const raw = localStorage.getItem('trace-personagens');
     this.characters = raw ? (JSON.parse(raw) as Character[]) : [];
+  }
+
+  protected onUploadCharacter(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+
+    if (!file) {
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const uploaded = JSON.parse(String(reader.result)) as Character;
+        const payload = { ...uploaded };
+        const existing = this.characters.find((character) => Number(character.id) === Number(payload.id));
+
+        if (this.characters.length >= 3 && !existing) {
+          window.alert('Sinto muito, seu eu exterior pode ter apenas 3 colaboradores nessa filial (que formidável você hein?)');
+          input.value = '';
+          return;
+        }
+
+        if (existing) {
+          this.characters = this.characters.map((character) =>
+            Number(character.id) === Number(payload.id) ? payload : character
+          );
+        } else {
+          this.characters = [...this.characters, payload];
+        }
+
+        localStorage.setItem('trace-personagens', JSON.stringify(this.characters));
+        this.loadCharacters();
+        window.dispatchEvent(new Event('trace-personagens-updated'));
+        window.location.reload();
+        window.alert(existing ? 'Personagem atualizado com sucesso.' : 'Personagem importado com sucesso.');
+        input.value = '';
+      } catch {
+        window.alert('Arquivo inválido. Envie um JSON de personagem válido.');
+        input.value = '';
+      }
+    };
+
+    reader.readAsText(file);
   }
 }

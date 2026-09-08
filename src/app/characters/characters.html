@@ -1,16 +1,48 @@
-<h1>Personagens</h1>
+<section class="characters-shell">
+  <header class="characters-header">
+    <div>
+      <p class="eyebrow">Triangle Agency</p>
+      <h1>Colaboradores</h1>
+    </div>
 
-<a routerLink="/new-character">Criar novo personagem</a>
+    <div class="actions">
+      <a *ngIf="canCreateNewCharacter; else limitReached" class="primary-button" routerLink="/new-character">Criar novo Colaborador</a>
 
-<ul *ngIf="characters.length; else emptyState">
-  <li *ngFor="let character of characters">
-    <a [routerLink]="['/character', character.id]">
-      {{ character.name || 'Agente sem nome' }}
-    </a>
-    <span> - {{ character.pronouns || 'pronomes não definidos' }}</span>
-  </li>
-</ul>
+      <label class="upload-button">
+        <span>Subir Colaborador</span>
+        <input type="file" accept="application/json" (change)="onUploadCharacter($event)" />
+      </label>
+    </div>
+  </header>
 
-<ng-template #emptyState>
-  <p>Nenhum personagem salvo no localStorage.</p>
-</ng-template>
+  <ng-template #limitReached>
+    <p class="limit-message">Sinto muito, seu eu exterior pode ter apenas 3 colaboradores nessa filial (que formidável você hein?)</p>
+  </ng-template>
+
+  <div class="list-wrapper">
+    <ul *ngIf="characters.length; else emptyState" class="character-list">
+      <li *ngFor="let character of characters" class="character-card">
+        <a [routerLink]="['/character', character.id]" class="character-link">
+          <div class="character-head">
+            <span class="character-icon" aria-hidden="true">👤</span>
+            <div class="character-identity">
+              <span class="character-name">{{ character.name || 'Agente sem nome' }}</span>
+              <small>{{ character.pronouns || 'pronomes não definidos' }}</small>
+            </div>
+            <div class="character-meta">
+                <span><span class="meta-anomaly">Anomalia</span> - {{ character.anomaly.name || 'Não definida' }}</span>
+                <span><span class="meta-reality">Realidade</span> - {{ character.reality.name || 'Não definida' }}</span>
+                <span><span class="meta-competency">Competencia</span> - {{ character.competency.name || 'Não definida' }}</span>
+            </div>
+          </div>
+
+          
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <ng-template #emptyState>
+    <p class="empty-state">Nenhum colaborador disponível :(</p>
+  </ng-template>
+</section>

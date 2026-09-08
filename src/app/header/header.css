@@ -1,0 +1,76 @@
+.header {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 100%;
+    margin: 0;
+    box-sizing: border-box;
+    border-bottom-right-radius: 100px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+    padding: 12px 20px;
+    gap: 16px;
+    background: #fff;
+    color: #111;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-right: 18px;
+}
+
+.brand-mark {
+    width: 0;
+    height: 0;
+    border-left: 12px solid transparent;
+    border-right: 12px solid transparent;
+    border-bottom: 22px solid #c41717;
+}
+
+.brand-text p {
+    margin: 0;
+    line-height: 1.2;
+    color: #111;
+}
+
+a {
+    position: relative;
+    text-decoration: none;
+    color: #111;
+    padding: 10px 12px;
+    border-radius: 8px;
+    transition: transform 0.2s ease, color 0.2s ease, background 0.2s ease;
+    letter-spacing: 0.02em;
+}
+
+a:hover {
+    transform: translateY(-1px);
+    color: #b51d1d;
+}
+
+a::before {
+    content: "";
+    position: absolute;
+    left: 6px;
+    top: 50%;
+    transform: translateY(-50%) translateX(-6px);
+    opacity: 0;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    border-left: 7px solid #b51d1d;
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+}
+
+a:hover::before,
+a.active::before {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
+}
+
+a.active {
+    color: #b51d1d;
+    font-weight: 700;
+}

@@ -1,13 +1,29 @@
 <section>
-  <h1>Criação de personagem</h1>
+  <h1>Criação de Colaborador (ARC)</h1>
 
-  <div>
-    <button type="button" *ngFor="let step of steps" [disabled]="step.key === currentStep" (click)="currentStep = step.key">
+  <p *ngIf="isAtCharacterLimit">Sinto muito, seu eu exterior pode ter apenas 3 colaboradores nessa filial (que formidável você hein?)</p>
+
+  <div class="steps-row">
+    <button
+      type="button"
+      *ngFor="let step of steps"
+      [disabled]="step.key === currentStep"
+      (click)="currentStep = step.key"
+      [ngClass]="{
+        'step-anomaly': step.key === 'anomaly',
+        'step-reality': step.key === 'reality',
+        'step-competency': step.key === 'competency',
+        'step-active': step.key === currentStep,
+        'current-step-anomaly': step.key === 'anomaly' && currentStep === 'anomaly',
+        'current-step-reality': step.key === 'reality' && currentStep === 'reality',
+        'current-step-competency': step.key === 'competency' && currentStep === 'competency'
+      }"
+    >
       {{ step.label }}
     </button>
   </div>
 
-  <div *ngIf="currentStep === 'anomaly'">
+  <div *ngIf="currentStep === 'anomaly'" class="form-panel panel-anomaly">
     <h2>Anomalia</h2>
 
     <label>
@@ -24,10 +40,7 @@
       Anomalia
       <select [(ngModel)]="character.anomaly.name" name="anomalyName">
         <option value="">Selecione</option>
-        <option value="Sussurro">Sussurro</option>
-        <option value="Catálogo">Catálogo</option>
-        <option value="Drenagem">Drenagem</option>
-        <option value="Cronometria">Cronometria</option>
+        <option *ngFor="let option of anomalyOptions" [value]="option">{{ option }}</option>
       </select>
     </label>
 
@@ -37,17 +50,14 @@
     </label>
   </div>
 
-  <div *ngIf="currentStep === 'reality'">
+  <div *ngIf="currentStep === 'reality'" class="form-panel panel-reality">
     <h2>Realidade</h2>
 
     <label>
       Realidade
       <select [(ngModel)]="character.reality.name" name="realityName">
         <option value="">Selecione</option>
-        <option value="Cuidador">Cuidador</option>
-        <option value="Sobrecarregado">Sobrecarregado</option>
-        <option value="Romântico">Romântico</option>
-        <option value="Endividado">Endividado</option>
+        <option *ngFor="let option of realityOptions" [value]="option">{{ option }}</option>
       </select>
     </label>
 
@@ -67,16 +77,14 @@
     </label>
   </div>
 
-  <div *ngIf="currentStep === 'competency'">
+  <div *ngIf="currentStep === 'competency'" class="form-panel panel-competency">
     <h2>Competência</h2>
 
     <label>
       Competência
       <select [(ngModel)]="character.competency.name" name="competencyName">
         <option value="">Selecione</option>
-        <option value="Relações Públicas">Relações Públicas</option>
-        <option value="Pesquisa e Desenvolvimento">Pesquisa e Desenvolvimento</option>
-        <option value="Barista">Barista</option>
+        <option *ngFor="let option of competencyOptions" [value]="option">{{ option }}</option>
       </select>
     </label>
 
@@ -159,11 +167,16 @@
 
       <label>
         Café favorito
-        <input type="text" [(ngModel)]="character.questionnaire.coffee" name="questionCoffee" />
+        <input type="text" name="questionCoffee"/>
       </label>
 
       <label>
-        Observações
+        Experiência em Pacote Office?
+        <input type="text" name="questionOfficeExperience"/>
+      </label>
+
+      <label>
+        Outras Observações
         <textarea rows="2" [(ngModel)]="character.questionnaire.others" name="questionOthers"></textarea>
       </label>
     </fieldset>
@@ -171,6 +184,6 @@
 
   <div>
     <button type="button" *ngIf="currentStepIndex > 0" (click)="prevStep()">Voltar</button>
-    <button type="button" [disabled]="!isFormValid() && isLastStep" (click)="nextStep()">{{ isLastStep ? 'Salvar personagem' : 'Próximo' }}</button>
+    <button type="button" [disabled]="isAtCharacterLimit || (!isFormValid() && isLastStep)" (click)="nextStep()">{{ isLastStep ? 'Salvar Colaborador' : 'Próximo' }}</button>
   </div>
 </section>

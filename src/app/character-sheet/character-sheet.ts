@@ -9,7 +9,8 @@ import type { Character } from '../models/character.model';
   selector: 'app-character-sheet',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './character-sheet.html'
+  templateUrl: './character-sheet.html',
+  styleUrl: './character-sheet.css'
 })
 export class CharacterSheet implements OnInit {
   protected character: Character | null = null;
@@ -31,8 +32,11 @@ export class CharacterSheet implements OnInit {
       return;
     }
 
+    const currentValue = Number(this.character[group][key] ?? 0);
     const safeValue = Math.max(0, Math.min(this.maxTriangles, Number(value) || 0));
-    this.character[group][key] = safeValue as never;
+    const nextValue = currentValue === safeValue ? 0 : safeValue;
+
+    this.character[group][key] = nextValue as never;
   }
 
   protected normalizeCharacter(character: Character): Character {
@@ -123,6 +127,27 @@ export class CharacterSheet implements OnInit {
     );
 
     localStorage.setItem('trace-personagens', JSON.stringify(updated));
+    window.dispatchEvent(new Event('trace-personagens-updated'));
+    window.location.reload();
+    this.loadCharacter();
     window.alert('Personagem atualizado com sucesso.');
+  }
+
+  protected downloadCharacterJson(): void {
+    if (!this.character) {
+      return;
+    }
+
+    const payload = JSON.stringify(this.character, null, 2);
+    const blob = new Blob([payload], { type: 'application/json' });
+    const url = window.URL.createObjectURL(blob);
+    const anchor = document.createElement('a');
+    const safeName = (this.character.name || 'personagem').trim().replace(/\s+/g, '-').toLowerCase();
+
+    anchor.href = url;
+    anchor.download = `personagem-${this.character.id || 'sem-id'}-${safeName}.json`;
+    anchor.click();
+
+    window.URL.revokeObjectURL(url);
   }
 }

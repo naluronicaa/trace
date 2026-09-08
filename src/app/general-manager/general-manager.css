@@ -1,0 +1,129 @@
+.general-manager-page {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 120px);
+  background:
+    radial-gradient(circle at 20% 20%, rgba(77, 103, 255, 0.12), transparent 30%),
+    radial-gradient(circle at 80% 10%, rgba(255, 0, 0, 0.12), transparent 25%),
+    #000;
+  overflow: hidden;
+  color: #fff;
+}
+
+.starfield {
+  position: absolute;
+  inset: -10% -5%;
+  background-image:
+    radial-gradient(circle, rgba(255, 255, 255, 0.95) 0 1.5px, transparent 2px),
+    radial-gradient(circle, rgba(255, 255, 255, 0.8) 0 1.2px, transparent 2.2px),
+    radial-gradient(circle, rgba(255, 255, 255, 0.6) 0 1px, transparent 2.5px),
+    radial-gradient(circle, rgba(128, 146, 255, 0.6) 0 1.4px, transparent 2.8px);
+  background-size: 180px 180px, 220px 220px, 260px 260px, 300px 300px;
+  background-position: 0 0, 70px 90px, 140px 40px, 200px 120px;
+  opacity: 0.95;
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.3));
+  animation: drift 20s ease-in-out infinite alternate;
+  transition: transform 0.25s ease-out;
+}
+
+.starfield::before,
+.starfield::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-repeat: repeat;
+}
+
+.starfield::before {
+  background-image:
+    radial-gradient(circle, rgba(255, 255, 255, 0.9) 0 0.8px, transparent 1.8px),
+    radial-gradient(circle, rgba(255, 255, 255, 0.7) 0 1px, transparent 2.2px);
+  background-size: 120px 120px;
+  background-position: 20px 30px, 80px 60px;
+  animation: sparkle 7s linear infinite;
+}
+
+.starfield::after {
+  background-image:
+    radial-gradient(circle, rgba(255, 255, 255, 0.75) 0 1px, transparent 2px),
+    radial-gradient(circle, rgba(132, 148, 255, 0.7) 0 1.5px, transparent 2.6px);
+  background-size: 150px 150px;
+  background-position: 50px 90px, 110px 30px;
+  animation: sparkle 11s linear infinite reverse;
+}
+
+.message-wrap {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 18px;
+  padding: 32px;
+}
+
+.warning-text,
+.sub-warning-text {
+  margin: 0;
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-shadow: 0 0 18px rgba(255, 255, 255, 0.2);
+}
+
+.sub-warning-text {
+  font-size: 18px;
+}
+
+.sub2-warning-text {
+  color: red;
+  font-weight: 700;
+  font-style: italic;
+}
+
+button {
+  border: 2px solid #fff;   
+  background: transparent;
+  color: #fff;
+  padding: 14px 28px;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+button:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 0 18px rgba(255, 255, 255, 0.35);
+  border-color: #d9d9d9;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+@keyframes drift {
+  0% {
+    transform: translate3d(-16px, -12px, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(12px, 16px, 0) scale(1.04);
+  }
+  100% {
+    transform: translate3d(18px, -8px, 0) scale(1.08);
+  }
+}
+
+@keyframes sparkle {
+  0%, 100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+}

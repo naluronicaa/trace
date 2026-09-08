@@ -1,7 +1,13 @@
-<div>
-    <p>Triangle Agency</p>
-    <a href="/">Home</a>
-    <a href="https://mega.nz/file/mPIyyaJQ#ACTDdGwchrFJDiGasMuE9k4xWaCtnlqZc3f8--DrgAQ">Guia do Agente</a>
-    <a href="/characters">Colaboradores</a>
-    <a href="/">Acesso Restrito</a>
+<div class="header">
+    <div class="brand">
+        <div class="brand-mark" aria-label="Triangle logo"></div>
+        <div class="brand-text">
+            <p>T.R.A.C.E</p>
+        </div>
+    </div>
+
+    <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"> Home</a>
+    <a href="https://mega.nz/file/mPIyyaJQ#ACTDdGwchrFJDiGasMuE9k4xWaCtnlqZc3f8--DrgAQ" target="_blank" rel="noopener noreferrer"> Guia dos Agentes</a>
+    <a routerLink="/characters" routerLinkActive="active"> Colaboradores</a>
+    <a routerLink="/voce-nao-deveria-estar-aqui" routerLinkActive="active"> Acesso Restrito</a>
 </div>

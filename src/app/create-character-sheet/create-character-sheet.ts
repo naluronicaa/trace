@@ -59,7 +59,6 @@ const createDefaultCharacter = (): Character => {
     questionnaire: {
       appearance: '',
       powersAppearance: '',
-      coffee: '',
       others: ''
     }
   };
@@ -69,7 +68,8 @@ const createDefaultCharacter = (): Character => {
   selector: 'app-create-character-sheet',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './create-character-sheet.html'
+  templateUrl: './create-character-sheet.html',
+  styleUrl: './create-character-sheet.css'
 })
 export class CreateCharacterSheet {
   protected readonly steps: { key: StepKey; label: string }[] = [
@@ -77,6 +77,10 @@ export class CreateCharacterSheet {
     { key: 'reality', label: 'Realidade' },
     { key: 'competency', label: 'Competência' }
   ];
+
+  protected readonly anomalyOptions = ['Sussurro', 'Catálogo', 'Drenagem', 'Cronometria'];
+  protected readonly realityOptions = ['Cuidador', 'Sobrecarregado', 'Romântico', 'Endividado'];
+  protected readonly competencyOptions = ['Relações Públicas', 'Pesquisa e Desenvolvimento', 'Barista'];
 
   protected currentStep: StepKey = 'anomaly';
   protected character: Character = createDefaultCharacter();
@@ -87,6 +91,17 @@ export class CreateCharacterSheet {
 
   protected get isLastStep(): boolean {
     return this.currentStepIndex === this.steps.length - 1;
+  }
+
+  protected get isAtCharacterLimit(): boolean {
+    if (typeof window === 'undefined') {
+      return false;
+    }
+
+    const raw = window.localStorage.getItem('trace-personagens');
+    const list = raw ? (JSON.parse(raw) as Character[]) : [];
+
+    return Array.isArray(list) && list.length >= 3;
   }
 
   protected isFormValid(): boolean {
@@ -107,7 +122,6 @@ export class CreateCharacterSheet {
       character.competency.demerito,
       character.questionnaire.appearance,
       character.questionnaire.powersAppearance,
-      character.questionnaire.coffee,
       character.questionnaire.others
     ];
 
@@ -118,6 +132,11 @@ export class CreateCharacterSheet {
   }
 
   protected nextStep(): void {
+    if (this.isAtCharacterLimit) {
+      window.alert('Sinto muito, seu eu exterior pode ter apenas 3 colaboradores nessa filial (que formidável você hein?)');
+      return;
+    }
+
     const index = this.currentStepIndex;
 
     if (index < this.steps.length - 1) {
@@ -145,6 +164,11 @@ export class CreateCharacterSheet {
       return;
     }
 
+    if (this.isAtCharacterLimit) {
+      window.alert('Sinto muito, seu eu exterior pode ter apenas 3 colaboradores nessa filial (que formidável você hein?)');
+      return;
+    }
+
     const key = 'trace-personagens';
     const raw = window.localStorage.getItem(key);
     const list = raw ? JSON.parse(raw) as Character[] : [];
@@ -159,7 +183,7 @@ export class CreateCharacterSheet {
     }
 
     if (nextId > 3) {
-      window.alert('Você já atingiu o limite de 3 personagens salvos.');
+      window.alert('Sinto muito, seu eu exterior pode ter apenas 3 colaboradores nessa filial (que formidável você hein?)');
       return;
     }
 
@@ -171,6 +195,8 @@ export class CreateCharacterSheet {
 
     list.push(payload);
     window.localStorage.setItem(key, JSON.stringify(list));
+    window.dispatchEvent(new Event('trace-personagens-updated'));
+    window.location.reload();
     this.character = createDefaultCharacter();
     this.currentStep = 'anomaly';
     window.alert('Personagem salvo no localStorage.');

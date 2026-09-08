@@ -1,17 +1,24 @@
 <section *ngIf="character; else notFound">
-  <h1>Ficha de Personagem</h1>
+  <h1>Ficha de Colaborador</h1>
 
-  <label>
-    Nome
-    <input type="text" [(ngModel)]="character.name" name="name" />
-  </label>
+  <div class="actions-row">
+    <button type="button" class="action-button" (click)="saveCharacter()">Salvar alterações</button>
+    <button type="button" class="action-button secondary" (click)="downloadCharacterJson()">Baixar</button>
+  </div>
 
-  <label>
-    Pronomes
-    <input type="text" [(ngModel)]="character.pronouns" name="pronouns" />
-  </label>
+  <div class="identity-row">
+    <label class="identity-field">
+      Nome
+      <input type="text" [(ngModel)]="character.name" name="name" />
+    </label>
 
-  <h2>Anomalia</h2>
+    <label class="identity-field">
+      Pronomes
+      <input type="text" [(ngModel)]="character.pronouns" name="pronouns" />
+    </label>
+  </div>
+
+  <h2 class="section-title section-anomaly">Anomalia</h2>
   <label>
     Nome da anomalia
     <input type="text" [(ngModel)]="character.anomaly.name" name="anomalyName" />
@@ -21,7 +28,7 @@
     <textarea rows="4" [(ngModel)]="character.anomaly.description" name="anomalyDescription"></textarea>
   </label>
 
-  <h2>Realidade</h2>
+  <h2 class="section-title section-reality">Realidade</h2>
   <label>
     Nome da realidade
     <input type="text" [(ngModel)]="character.reality.name" name="realityName" />
@@ -39,9 +46,9 @@
     <textarea rows="3" [(ngModel)]="character.reality.alivio" name="realityRelief"></textarea>
   </label>
 
-  <h2>Competência</h2>
+  <h2 class="section-title section-competency">Competencia</h2>
   <label>
-    Nome da competência
+    Nome da competencia
     <input type="text" [(ngModel)]="character.competency.name" name="competencyName" />
   </label>
   <label>
@@ -59,166 +66,265 @@
 
   <h2>Qualidades</h2>
   <ul>
-    <li>
-      Atenção
-      <label>Máximo</label>
-      <input type="number" min="0" max="9" [(ngModel)]="character.qualities.attention" name="qualityMaxAttention" />
-      <label>Em jogo</label>
-      <span *ngFor="let filled of getTriangleStates(character.qualities_in_game.attention); let index = index">
-        <button type="button" (click)="setTriangleValue('qualities_in_game', 'attention', index + 1)">
-          {{ filled ? '▲' : '△' }}
-        </button>
-      </span>
-      <span> / Burnout </span>
-      <span *ngFor="let filled of getTriangleStates(character.burnout_in_game.attention); let index = index">
-        <button type="button" (click)="setTriangleValue('burnout_in_game', 'attention', index + 1)">
-          {{ filled ? '▲' : '△' }}
-        </button>
-      </span>
+    <li class="quality-row">
+      <strong class="quality-name">Atenção</strong>
+
+      <div class="quality-controls">
+        <label class="max-label">
+          Max.
+          <input class="max-input" type="number" min="0" max="9" [(ngModel)]="character.qualities.attention" name="qualityMaxAttention" />
+        </label>
+
+        <div class="triangle-group">
+          <span class="triangle-label">Em jogo</span>
+          <span *ngFor="let filled of getTriangleStates(character.qualities_in_game.attention); let index = index">
+            <button type="button" class="triangle-button" [class.is-selected]="filled" (click)="setTriangleValue('qualities_in_game', 'attention', index + 1)">
+              {{ filled ? '▲' : '△' }}
+            </button>
+          </span>
+        </div>
+
+        <div class="triangle-group">
+          <span class="triangle-label">Burnout</span>
+          <span *ngFor="let filled of getTriangleStates(character.burnout_in_game.attention); let index = index">
+            <button type="button" class="triangle-button" [class.is-selected]="filled" (click)="setTriangleValue('burnout_in_game', 'attention', index + 1)">
+              {{ filled ? '▲' : '△' }}
+            </button>
+          </span>
+        </div>
+      </div>
     </li>
 
-    <li>
-      Empatia
-      <label>Máximo</label>
-      <input type="number" min="0" max="9" [(ngModel)]="character.qualities.empathy" name="qualityMaxEmpathy" />
-      <label>Em jogo</label>
-      <span *ngFor="let filled of getTriangleStates(character.qualities_in_game.empathy); let index = index">
-        <button type="button" (click)="setTriangleValue('qualities_in_game', 'empathy', index + 1)">
-          {{ filled ? '▲' : '△' }}
-        </button>
-      </span>
-      <span> / Burnout </span>
-      <span *ngFor="let filled of getTriangleStates(character.burnout_in_game.empathy); let index = index">
-        <button type="button" (click)="setTriangleValue('burnout_in_game', 'empathy', index + 1)">
-          {{ filled ? '▲' : '△' }}
-        </button>
-      </span>
+    <li class="quality-row">
+      <strong class="quality-name">Empatia</strong>
+
+      <div class="quality-controls">
+        <label class="max-label">
+          Max.
+          <input class="max-input" type="number" min="0" max="9" [(ngModel)]="character.qualities.empathy" name="qualityMaxEmpathy" />
+        </label>
+
+        <div class="triangle-group">
+          <span class="triangle-label">Em jogo</span>
+          <span *ngFor="let filled of getTriangleStates(character.qualities_in_game.empathy); let index = index">
+            <button type="button" class="triangle-button" [class.is-selected]="filled" (click)="setTriangleValue('qualities_in_game', 'empathy', index + 1)">
+              {{ filled ? '▲' : '△' }}
+            </button>
+          </span>
+        </div>
+
+        <div class="triangle-group">
+          <span class="triangle-label">Burnout</span>
+          <span *ngFor="let filled of getTriangleStates(character.burnout_in_game.empathy); let index = index">
+            <button type="button" class="triangle-button" [class.is-selected]="filled" (click)="setTriangleValue('burnout_in_game', 'empathy', index + 1)">
+              {{ filled ? '▲' : '△' }}
+            </button>
+          </span>
+        </div>
+      </div>
     </li>
 
-    <li>
-      Presença
-      <label>Máximo</label>
-      <input type="number" min="0" max="9" [(ngModel)]="character.qualities.presence" name="qualityMaxPresence" />
-      <label>Em jogo</label>
-      <span *ngFor="let filled of getTriangleStates(character.qualities_in_game.presence); let index = index">
-        <button type="button" (click)="setTriangleValue('qualities_in_game', 'presence', index + 1)">
-          {{ filled ? '▲' : '△' }}
-        </button>
-      </span>
-      <span> / Burnout </span>
-      <span *ngFor="let filled of getTriangleStates(character.burnout_in_game.presence); let index = index">
-        <button type="button" (click)="setTriangleValue('burnout_in_game', 'presence', index + 1)">
-          {{ filled ? '▲' : '△' }}
-        </button>
-      </span>
+    <li class="quality-row">
+      <strong class="quality-name">Presença</strong>
+
+      <div class="quality-controls">
+        <label class="max-label">
+          Max.
+          <input class="max-input" type="number" min="0" max="9" [(ngModel)]="character.qualities.presence" name="qualityMaxPresence" />
+        </label>
+
+        <div class="triangle-group">
+          <span class="triangle-label">Em jogo</span>
+          <span *ngFor="let filled of getTriangleStates(character.qualities_in_game.presence); let index = index">
+            <button type="button" class="triangle-button" [class.is-selected]="filled" (click)="setTriangleValue('qualities_in_game', 'presence', index + 1)">
+              {{ filled ? '▲' : '△' }}
+            </button>
+          </span>
+        </div>
+
+        <div class="triangle-group">
+          <span class="triangle-label">Burnout</span>
+          <span *ngFor="let filled of getTriangleStates(character.burnout_in_game.presence); let index = index">
+            <button type="button" class="triangle-button" [class.is-selected]="filled" (click)="setTriangleValue('burnout_in_game', 'presence', index + 1)">
+              {{ filled ? '▲' : '△' }}
+            </button>
+          </span>
+        </div>
+      </div>
     </li>
 
-    <li>
-      Duplicidade
-      <label>Máximo</label>
-      <input type="number" min="0" max="9" [(ngModel)]="character.qualities.duplicity" name="qualityMaxDuplicity" />
-      <label>Em jogo</label>
-      <span *ngFor="let filled of getTriangleStates(character.qualities_in_game.duplicity); let index = index">
-        <button type="button" (click)="setTriangleValue('qualities_in_game', 'duplicity', index + 1)">
-          {{ filled ? '▲' : '△' }}
-        </button>
-      </span>
-      <span> / Burnout </span>
-      <span *ngFor="let filled of getTriangleStates(character.burnout_in_game.duplicity); let index = index">
-        <button type="button" (click)="setTriangleValue('burnout_in_game', 'duplicity', index + 1)">
-          {{ filled ? '▲' : '△' }}
-        </button>
-      </span>
+    <li class="quality-row">
+      <strong class="quality-name">Duplicidade</strong>
+
+      <div class="quality-controls">
+        <label class="max-label">
+          Max.
+          <input class="max-input" type="number" min="0" max="9" [(ngModel)]="character.qualities.duplicity" name="qualityMaxDuplicity" />
+        </label>
+
+        <div class="triangle-group">
+          <span class="triangle-label">Em jogo</span>
+          <span *ngFor="let filled of getTriangleStates(character.qualities_in_game.duplicity); let index = index">
+            <button type="button" class="triangle-button" [class.is-selected]="filled" (click)="setTriangleValue('qualities_in_game', 'duplicity', index + 1)">
+              {{ filled ? '▲' : '△' }}
+            </button>
+          </span>
+        </div>
+
+        <div class="triangle-group">
+          <span class="triangle-label">Burnout</span>
+          <span *ngFor="let filled of getTriangleStates(character.burnout_in_game.duplicity); let index = index">
+            <button type="button" class="triangle-button" [class.is-selected]="filled" (click)="setTriangleValue('burnout_in_game', 'duplicity', index + 1)">
+              {{ filled ? '▲' : '△' }}
+            </button>
+          </span>
+        </div>
+      </div>
     </li>
 
-    <li>
-      Iniciativa
-      <label>Máximo</label>
-      <input type="number" min="0" max="9" [(ngModel)]="character.qualities.initiative" name="qualityMaxInitiative" />
-      <label>Em jogo</label>
-      <span *ngFor="let filled of getTriangleStates(character.qualities_in_game.initiative); let index = index">
-        <button type="button" (click)="setTriangleValue('qualities_in_game', 'initiative', index + 1)">
-          {{ filled ? '▲' : '△' }}
-        </button>
-      </span>
-      <span> / Burnout </span>
-      <span *ngFor="let filled of getTriangleStates(character.burnout_in_game.initiative); let index = index">
-        <button type="button" (click)="setTriangleValue('burnout_in_game', 'initiative', index + 1)">
-          {{ filled ? '▲' : '△' }}
-        </button>
-      </span>
+    <li class="quality-row">
+      <strong class="quality-name">Iniciativa</strong>
+
+      <div class="quality-controls">
+        <label class="max-label">
+          Max.
+          <input class="max-input" type="number" min="0" max="9" [(ngModel)]="character.qualities.initiative" name="qualityMaxInitiative" />
+        </label>
+
+        <div class="triangle-group">
+          <span class="triangle-label">Em jogo</span>
+          <span *ngFor="let filled of getTriangleStates(character.qualities_in_game.initiative); let index = index">
+            <button type="button" class="triangle-button" [class.is-selected]="filled" (click)="setTriangleValue('qualities_in_game', 'initiative', index + 1)">
+              {{ filled ? '▲' : '△' }}
+            </button>
+          </span>
+        </div>
+
+        <div class="triangle-group">
+          <span class="triangle-label">Burnout</span>
+          <span *ngFor="let filled of getTriangleStates(character.burnout_in_game.initiative); let index = index">
+            <button type="button" class="triangle-button" [class.is-selected]="filled" (click)="setTriangleValue('burnout_in_game', 'initiative', index + 1)">
+              {{ filled ? '▲' : '△' }}
+            </button>
+          </span>
+        </div>
+      </div>
     </li>
 
-    <li>
-      Profissionalismo
-      <label>Máximo</label>
-      <input type="number" min="0" max="9" [(ngModel)]="character.qualities.professionalism" name="qualityMaxProfessionalism" />
-      <label>Em jogo</label>
-      <span *ngFor="let filled of getTriangleStates(character.qualities_in_game.professionalism); let index = index">
-        <button type="button" (click)="setTriangleValue('qualities_in_game', 'professionalism', index + 1)">
-          {{ filled ? '▲' : '△' }}
-        </button>
-      </span>
-      <span> / Burnout </span>
-      <span *ngFor="let filled of getTriangleStates(character.burnout_in_game.professionalism); let index = index">
-        <button type="button" (click)="setTriangleValue('burnout_in_game', 'professionalism', index + 1)">
-          {{ filled ? '▲' : '△' }}
-        </button>
-      </span>
+    <li class="quality-row">
+      <strong class="quality-name">Profissionalismo</strong>
+
+      <div class="quality-controls">
+        <label class="max-label">
+          Max.
+          <input class="max-input" type="number" min="0" max="9" [(ngModel)]="character.qualities.professionalism" name="qualityMaxProfessionalism" />
+        </label>
+
+        <div class="triangle-group">
+          <span class="triangle-label">Em jogo</span>
+          <span *ngFor="let filled of getTriangleStates(character.qualities_in_game.professionalism); let index = index">
+            <button type="button" class="triangle-button" [class.is-selected]="filled" (click)="setTriangleValue('qualities_in_game', 'professionalism', index + 1)">
+              {{ filled ? '▲' : '△' }}
+            </button>
+          </span>
+        </div>
+
+        <div class="triangle-group">
+          <span class="triangle-label">Burnout</span>
+          <span *ngFor="let filled of getTriangleStates(character.burnout_in_game.professionalism); let index = index">
+            <button type="button" class="triangle-button" [class.is-selected]="filled" (click)="setTriangleValue('burnout_in_game', 'professionalism', index + 1)">
+              {{ filled ? '▲' : '△' }}
+            </button>
+          </span>
+        </div>
+      </div>
     </li>
 
-    <li>
-      Dinamismo
-      <label>Máximo</label>
-      <input type="number" min="0" max="9" [(ngModel)]="character.qualities.dynamism" name="qualityMaxDynamism" />
-      <label>Em jogo</label>
-      <span *ngFor="let filled of getTriangleStates(character.qualities_in_game.dynamism); let index = index">
-        <button type="button" (click)="setTriangleValue('qualities_in_game', 'dynamism', index + 1)">
-          {{ filled ? '▲' : '△' }}
-        </button>
-      </span>
-      <span> / Burnout </span>
-      <span *ngFor="let filled of getTriangleStates(character.burnout_in_game.dynamism); let index = index">
-        <button type="button" (click)="setTriangleValue('burnout_in_game', 'dynamism', index + 1)">
-          {{ filled ? '▲' : '△' }}
-        </button>
-      </span>
+    <li class="quality-row">
+      <strong class="quality-name">Dinamismo</strong>
+
+      <div class="quality-controls">
+        <label class="max-label">
+          Max.
+          <input class="max-input" type="number" min="0" max="9" [(ngModel)]="character.qualities.dynamism" name="qualityMaxDynamism" />
+        </label>
+
+        <div class="triangle-group">
+          <span class="triangle-label">Em jogo</span>
+          <span *ngFor="let filled of getTriangleStates(character.qualities_in_game.dynamism); let index = index">
+            <button type="button" class="triangle-button" [class.is-selected]="filled" (click)="setTriangleValue('qualities_in_game', 'dynamism', index + 1)">
+              {{ filled ? '▲' : '△' }}
+            </button>
+          </span>
+        </div>
+
+        <div class="triangle-group">
+          <span class="triangle-label">Burnout</span>
+          <span *ngFor="let filled of getTriangleStates(character.burnout_in_game.dynamism); let index = index">
+            <button type="button" class="triangle-button" [class.is-selected]="filled" (click)="setTriangleValue('burnout_in_game', 'dynamism', index + 1)">
+              {{ filled ? '▲' : '△' }}
+            </button>
+          </span>
+        </div>
+      </div>
     </li>
 
-    <li>
-      Persistência
-      <label>Máximo</label>
-      <input type="number" min="0" max="9" [(ngModel)]="character.qualities.persistence" name="qualityMaxPersistence" />
-      <label>Em jogo</label>
-      <span *ngFor="let filled of getTriangleStates(character.qualities_in_game.persistence); let index = index">
-        <button type="button" (click)="setTriangleValue('qualities_in_game', 'persistence', index + 1)">
-          {{ filled ? '▲' : '△' }}
-        </button>
-      </span>
-      <span> / Burnout </span>
-      <span *ngFor="let filled of getTriangleStates(character.burnout_in_game.persistence); let index = index">
-        <button type="button" (click)="setTriangleValue('burnout_in_game', 'persistence', index + 1)">
-          {{ filled ? '▲' : '△' }}
-        </button>
-      </span>
+    <li class="quality-row">
+      <strong class="quality-name">Persistência</strong>
+
+      <div class="quality-controls">
+        <label class="max-label">
+          Max.
+          <input class="max-input" type="number" min="0" max="9" [(ngModel)]="character.qualities.persistence" name="qualityMaxPersistence" />
+        </label>
+
+        <div class="triangle-group">
+          <span class="triangle-label">Em jogo</span>
+          <span *ngFor="let filled of getTriangleStates(character.qualities_in_game.persistence); let index = index">
+            <button type="button" class="triangle-button" [class.is-selected]="filled" (click)="setTriangleValue('qualities_in_game', 'persistence', index + 1)">
+              {{ filled ? '▲' : '△' }}
+            </button>
+          </span>
+        </div>
+
+        <div class="triangle-group">
+          <span class="triangle-label">Burnout</span>
+          <span *ngFor="let filled of getTriangleStates(character.burnout_in_game.persistence); let index = index">
+            <button type="button" class="triangle-button" [class.is-selected]="filled" (click)="setTriangleValue('burnout_in_game', 'persistence', index + 1)">
+              {{ filled ? '▲' : '△' }}
+            </button>
+          </span>
+        </div>
+      </div>
     </li>
 
-    <li>
-      Sutileza
-      <label>Máximo</label>
-      <input type="number" min="0" max="9" [(ngModel)]="character.qualities.subtlety" name="qualityMaxSubtlety" />
-      <label>Em jogo</label>
-      <span *ngFor="let filled of getTriangleStates(character.qualities_in_game.subtlety); let index = index">
-        <button type="button" (click)="setTriangleValue('qualities_in_game', 'subtlety', index + 1)">
-          {{ filled ? '▲' : '△' }}
-        </button>
-      </span>
-      <span> / Burnout </span>
-      <span *ngFor="let filled of getTriangleStates(character.burnout_in_game.subtlety); let index = index">
-        <button type="button" (click)="setTriangleValue('burnout_in_game', 'subtlety', index + 1)">
-          {{ filled ? '▲' : '△' }}
-        </button>
-      </span>
+    <li class="quality-row">
+      <strong class="quality-name">Sutileza</strong>
+
+      <div class="quality-controls">
+        <label class="max-label">
+          Max.
+          <input class="max-input" type="number" min="0" max="9" [(ngModel)]="character.qualities.subtlety" name="qualityMaxSubtlety" />
+        </label>
+
+        <div class="triangle-group">
+          <span class="triangle-label">Em jogo</span>
+          <span *ngFor="let filled of getTriangleStates(character.qualities_in_game.subtlety); let index = index">
+            <button type="button" class="triangle-button" [class.is-selected]="filled" (click)="setTriangleValue('qualities_in_game', 'subtlety', index + 1)">
+              {{ filled ? '▲' : '△' }}
+            </button>
+          </span>
+        </div>
+
+        <div class="triangle-group">
+          <span class="triangle-label">Burnout</span>
+          <span *ngFor="let filled of getTriangleStates(character.burnout_in_game.subtlety); let index = index">
+            <button type="button" class="triangle-button" [class.is-selected]="filled" (click)="setTriangleValue('burnout_in_game', 'subtlety', index + 1)">
+              {{ filled ? '▲' : '△' }}
+            </button>
+          </span>
+        </div>
+      </div>
     </li>
   </ul>
 
@@ -232,17 +338,13 @@
     <textarea rows="2" [(ngModel)]="character.questionnaire.powersAppearance" name="questionPowers"></textarea>
   </label>
   <label>
-    Café favorito
-    <input type="text" [(ngModel)]="character.questionnaire.coffee" name="questionCoffee" />
-  </label>
-  <label>
     Observações
     <textarea rows="2" [(ngModel)]="character.questionnaire.others" name="questionOthers"></textarea>
   </label>
 
-  <button type="button" (click)="saveCharacter()">Salvar alterações</button>
+  
 </section>
 
 <ng-template #notFound>
-  <p>Personagem não encontrado.</p>
+  <p>Colaborador não encontrado.</p>
 </ng-template>

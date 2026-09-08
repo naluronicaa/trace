@@ -1,0 +1,223 @@
+section {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 32px 24px 48px;
+  background: #f5f5f5;
+  min-height: calc(100vh - 160px);
+}
+
+h1 {
+  margin: 0 0 18px;
+  color: #111;
+  font-size: clamp(2rem, 4vw, 3rem);
+}
+
+p {
+  color: #2e2e2e;
+}
+
+.steps-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.steps-row button {
+  border: 1px solid #111;
+  background: #fff;
+  color: #111;
+  padding: 10px 16px;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.steps-row button:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.steps-row button:disabled {
+  cursor: default;
+  opacity: 1;
+}
+
+.step-anomaly {
+  background: #dfeeff;
+  border-color: #1f5ec8;
+  color: #123f88;
+}
+
+.step-reality {
+  background: #fff3bf;
+  border-color: #c79b00;
+  color: #7a5a00;
+}
+
+.step-competency {
+  background: #ffd8d8;
+  border-color: #bf1f1f;
+  color: #7a1010;
+}
+
+.step-active {
+  box-shadow: inset 0 0 0 2px rgba(17, 17, 17, 0.15);
+}
+
+.panel-anomaly {
+  background: #f4f9ff;
+  border-color: #1f5ec8;
+}
+
+.panel-reality {
+  background: #fffdf0;
+  border-color: #c79b00;
+}
+
+.panel-competency {
+  background: #fff1f1;
+  border-color: #bf1f1f;
+}
+
+.form-panel {
+  border: 1px solid rgba(17, 17, 17, 0.08);
+  border-radius: 16px;
+  padding: 20px;
+  margin-top: 12px;
+  background: #fff;
+}
+
+.form-panel h2 {
+  margin-top: 0;
+}
+
+.panel-anomaly h2,
+.panel-anomaly label,
+.panel-anomaly legend,
+.panel-anomaly .step-anomaly,
+.panel-anomaly .step-reality,
+.panel-anomaly .step-competency {
+  color: #123f88;
+}
+
+.panel-reality h2,
+.panel-reality label,
+.panel-reality legend,
+.panel-reality .step-anomaly,
+.panel-reality .step-reality,
+.panel-reality .step-competency {
+  color: #7a5a00;
+}
+
+.panel-competency h2,
+.panel-competency label,
+.panel-competency legend,
+.panel-competency .step-anomaly,
+.panel-competency .step-reality,
+.panel-competency .step-competency {
+  color: #7a1010;
+}
+
+label,
+fieldset {
+  display: block;
+  margin-bottom: 18px;
+}
+
+label {
+  color: #111;
+  font-weight: 700;
+}
+
+input,
+select,
+textarea,
+button {
+  font: inherit;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: 8px;
+  border: 1px solid rgba(17, 17, 17, 0.18);
+  border-radius: 10px;
+  background: #fff;
+  color: #111;
+  padding: 12px 14px;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 90px;
+}
+
+fieldset {
+  border: 1px solid rgba(17, 17, 17, 0.15);
+  border-radius: 14px;
+  background: #fff;
+  padding: 18px;
+  margin-top: 24px;
+}
+
+legend {
+  padding: 0 8px;
+  font-weight: 700;
+  color: #111;
+}
+
+fieldset label {
+  display: block;
+  margin-bottom: 12px;
+}
+
+section > div:last-of-type {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 26px;
+}
+
+section > div:last-of-type button {
+  border: none;
+  border-radius: 10px;
+  padding: 12px 20px;
+  background: #111;
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+section > div:last-of-type button:first-child {
+  background: #ddd;
+  color: #111;
+}
+
+.current-step-anomaly {
+  background: #1f5ec8 !important;
+  color: #fff !important;
+}
+
+.current-step-reality {
+  background: #c79b00 !important;
+  color: #fff !important;
+}
+
+.current-step-competency {
+  background: #bf1f1f !important;
+  color: #fff !important;
+}
+
+section > div:last-of-type button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+h2 {
+  margin: 0 0 18px;
+  color: #111;
+}
+

@@ -57,7 +57,6 @@ describe('CreateCharacterSheet', () => {
       questionnaire: {
         appearance: 'A',
         powersAppearance: 'P',
-        coffee: 'C',
         others: 'O'
       }
     });

@@ -85,7 +85,6 @@ export interface Character {
   questionnaire: {
     appearance: string;
     powersAppearance: string;
-    coffee: string;
     others: string;
   };
 }
