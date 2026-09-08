@@ -1,14 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 
 import type { Character } from '../models/character.model';
 
 @Component({
   selector: 'app-character-sheet',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './character-sheet.html',
   styleUrl: './character-sheet.css'
 })
@@ -76,8 +76,20 @@ export class CharacterSheet implements OnInit {
       subtlety: toNumber(character.burnout?.subtlety)
     };
 
+    const anomalyEquipment = Array.isArray(character.anomaly?.equipment)
+      ? character.anomaly.equipment.map((item) => ({
+          name: String(item?.name ?? ''),
+          description: String(item?.description ?? '')
+        }))
+      : [];
+
     return {
       ...character,
+      anomaly: {
+        name: character.anomaly?.name ?? '',
+        description: character.anomaly?.description ?? '',
+        equipment: anomalyEquipment
+      },
       qualities,
       qualities_in_game: {
         attention: syncGameValue(qualities.attention, toNumber(character.qualities_in_game?.attention)),
@@ -103,6 +115,30 @@ export class CharacterSheet implements OnInit {
         subtlety: syncGameValue(burnout.subtlety, toNumber(character.burnout_in_game?.subtlety))
       }
     };
+  }
+
+  protected addEquipment(): void {
+    if (!this.character) {
+      return;
+    }
+
+    const equipment = this.character.anomaly.equipment ?? [];
+    equipment.push({ name: '', description: '' });
+    this.character.anomaly.equipment = equipment;
+  }
+
+  protected removeEquipment(index: number): void {
+    if (!this.character) {
+      return;
+    }
+
+    const equipment = this.character.anomaly.equipment ?? [];
+    if (index < 0 || index >= equipment.length) {
+      return;
+    }
+
+    equipment.splice(index, 1);
+    this.character.anomaly.equipment = equipment;
   }
 
   protected loadCharacter(): void {

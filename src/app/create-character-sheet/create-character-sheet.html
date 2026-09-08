@@ -48,6 +48,32 @@
       Descrição da anomalia
       <textarea rows="4" [(ngModel)]="character.anomaly.description" name="anomalyDescription"></textarea>
     </label>
+
+    <fieldset>
+      <legend>Equipamentos</legend>
+
+      <div *ngIf="(character.anomaly.equipment ?? []).length; else noEquipment">
+        <div *ngFor="let item of character.anomaly.equipment ?? []; let index = index; trackBy: trackByEquipment" class="equipment-row">
+          <label>
+            Nome
+            <input type="text" [(ngModel)]="item.name" [name]="'equipmentName' + index" placeholder="Ex.: Chave de bronze" />
+          </label>
+
+          <label>
+            Descrição
+            <textarea rows="2" [(ngModel)]="item.description" [name]="'equipmentDescription' + index" placeholder="Descreva o equipamento"></textarea>
+          </label>
+
+          <button type="button" (click)="removeEquipment(index)">Remover</button>
+        </div>
+      </div>
+
+      <ng-template #noEquipment>
+        <p>Nenhum equipamento adicionado ainda.</p>
+      </ng-template>
+
+      <button type="button" (click)="addEquipment()">Adicionar equipamento</button>
+    </fieldset>
   </div>
 
   <div *ngIf="currentStep === 'reality'" class="form-panel panel-reality">

@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import type { Character } from '../models/character.model';
 
@@ -35,7 +36,7 @@ const createDefaultCharacter = (): Character => {
     id: Date.now(),
     name: '',
     pronouns: '',
-    anomaly: { name: '', description: '' },
+    anomaly: { name: '', description: '', equipment: [] },
     reality: {
       name: '',
       description: '',
@@ -72,6 +73,8 @@ const createDefaultCharacter = (): Character => {
   styleUrl: './create-character-sheet.css'
 })
 export class CreateCharacterSheet {
+  constructor(private readonly router: Router) {}
+
   protected readonly steps: { key: StepKey; label: string }[] = [
     { key: 'anomaly', label: 'Anomalia' },
     { key: 'reality', label: 'Realidade' },
@@ -157,8 +160,33 @@ export class CreateCharacterSheet {
 
     const hasRequiredText = requiredTextFields.every((value) => value.trim().length > 0);
     const hasRequiredQualities = Object.values(character.qualities).every((value) => typeof value === 'number');
+    const hasValidEquipment = (character.anomaly.equipment ?? []).every((item) => {
+      const hasName = item.name.trim().length > 0;
+      const hasDescription = item.description.trim().length > 0;
+      return hasName && hasDescription;
+    });
 
-    return hasRequiredText && hasRequiredQualities;
+    return hasRequiredText && hasRequiredQualities && hasValidEquipment;
+  }
+
+  protected addEquipment(): void {
+    const equipment = this.character.anomaly.equipment ?? [];
+    equipment.push({ name: '', description: '' });
+    this.character.anomaly.equipment = equipment;
+  }
+
+  protected removeEquipment(index: number): void {
+    const equipment = this.character.anomaly.equipment ?? [];
+    if (index < 0 || index >= equipment.length) {
+      return;
+    }
+
+    equipment.splice(index, 1);
+    this.character.anomaly.equipment = equipment;
+  }
+
+  protected trackByEquipment(index: number): number {
+    return index;
   }
 
   protected nextStep(): void {
@@ -226,9 +254,6 @@ export class CreateCharacterSheet {
     list.push(payload);
     window.localStorage.setItem(key, JSON.stringify(list));
     window.dispatchEvent(new Event('trace-personagens-updated'));
-    window.location.reload();
-    this.character = createDefaultCharacter();
-    this.currentStep = 'anomaly';
-    window.alert('Personagem Salvo!');
+    this.router.navigate(['/character', payload.id]);
   }
 }

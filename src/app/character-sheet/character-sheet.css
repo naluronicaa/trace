@@ -72,14 +72,16 @@ textarea {
 }
 
 .action-button {
-  border: none;
-  min-width: 120px;
+  border: 1px solid rgba(17, 17, 17, 0.12);
+  border-radius: 999px;
+  min-width: 110px;
   padding: 8px 12px;
   font-weight: 700;
   cursor: pointer;
   background: #b51d1d;
   color: #fff;
-  box-shadow: 0 4px 10px rgba(181, 29, 29, 0.18);
+  box-shadow: 0 3px 8px rgba(181, 29, 29, 0.12);
+  font-size: 0.9rem;
 }
 
 .action-button.secondary {
@@ -87,12 +89,14 @@ textarea {
 }
 
 button {
-  border: none;
+  border: 1px solid rgba(17, 17, 17, 0.12);
+  border-radius: 999px;
   padding: 8px 12px;
   font-weight: 700;
   cursor: pointer;
   background: #111;
   color: #fff;
+  font-size: 0.9rem;
 }
 
 ul {
@@ -107,6 +111,48 @@ li {
   border-radius: 12px;
   background: #fff;
   font-weight: 600;
+}
+
+fieldset {
+  border: 1px solid rgba(17, 17, 17, 0.12);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 20px;
+  background: #fff;
+}
+
+fieldset legend {
+  padding: 0 8px;
+  font-weight: 800;
+}
+
+.equipment-row {
+  display: grid;
+  gap: 12px;
+  padding: 12px;
+  margin-bottom: 12px;
+  border: 1px solid rgba(17, 17, 17, 0.12);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.55);
+}
+
+.equipment-row button,
+fieldset > button {
+  width: auto;
+  border-radius: 999px;
+  padding: 8px 12px;
+  font-size: 0.9rem;
+}
+
+.equipment-row button {
+  justify-self: end;
+  background: #a52a2a;
+  border-color: #a52a2a;
+}
+
+fieldset > button {
+  background: #1f5ec8;
+  border-color: #1f5ec8;
 }
 
 .quality-row {

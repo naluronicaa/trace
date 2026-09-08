@@ -7,6 +7,10 @@ export interface Character {
   anomaly: {
     name: string;
     description: string;
+    equipment?: {
+      name: string;
+      description: string;
+    }[];
   };
 
   reality: { 
