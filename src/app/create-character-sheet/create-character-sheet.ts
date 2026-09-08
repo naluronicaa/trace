@@ -78,9 +78,39 @@ export class CreateCharacterSheet {
     { key: 'competency', label: 'Competência' }
   ];
 
-  protected readonly anomalyOptions = ['Sussurro', 'Catálogo', 'Drenagem', 'Cronometria'];
-  protected readonly realityOptions = ['Cuidador', 'Sobrecarregado', 'Romântico', 'Endividado'];
-  protected readonly competencyOptions = ['Relações Públicas', 'Pesquisa e Desenvolvimento', 'Barista'];
+  protected readonly anomalyOptions = [
+    'Sussurro',
+    'Catálogo',
+    'Drenagem',
+    'Cronometria',
+    'Crescimento',
+    'Arma',
+    'Sonho',
+    'Emaranhado',
+    'Ausência'
+  ];
+  protected readonly realityOptions =  [
+    'Cuidador',
+    'Sobrecarregado',
+    'Perseguido',
+    'Estrela',
+    'Endividado',
+    'Recém-Nascido',
+    'Romântico',
+    'Mandachuva',
+    'Criatura'
+  ];
+  protected readonly competencyOptions =  [
+    'RP',
+    'P&D',
+    'Barista',
+    'CEO',
+    'Estagiário',
+    'Coveiro',
+    'Recepção',
+    'Atendimento',
+    'Palhaço'
+  ];
 
   protected currentStep: StepKey = 'anomaly';
   protected character: Character = createDefaultCharacter();
