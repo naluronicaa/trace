@@ -1,0 +1,16 @@
+<h1>Personagens</h1>
+
+<a routerLink="/new-character">Criar novo personagem</a>
+
+<ul *ngIf="characters.length; else emptyState">
+  <li *ngFor="let character of characters">
+    <a [routerLink]="['/character', character.id]">
+      {{ character.name || 'Agente sem nome' }}
+    </a>
+    <span> - {{ character.pronouns || 'pronomes não definidos' }}</span>
+  </li>
+</ul>
+
+<ng-template #emptyState>
+  <p>Nenhum personagem salvo no localStorage.</p>
+</ng-template>

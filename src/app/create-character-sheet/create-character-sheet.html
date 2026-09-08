@@ -1,0 +1,176 @@
+<section>
+  <h1>Criação de personagem</h1>
+
+  <div>
+    <button type="button" *ngFor="let step of steps" [disabled]="step.key === currentStep" (click)="currentStep = step.key">
+      {{ step.label }}
+    </button>
+  </div>
+
+  <div *ngIf="currentStep === 'anomaly'">
+    <h2>Anomalia</h2>
+
+    <label>
+      Nome do agente
+      <input type="text" [(ngModel)]="character.name" name="name" />
+    </label>
+
+    <label>
+      Pronomes
+      <input type="text" [(ngModel)]="character.pronouns" name="pronouns" placeholder="Ex.: ela/dela, ele/dele, elu/delu" />
+    </label>
+
+    <label>
+      Anomalia
+      <select [(ngModel)]="character.anomaly.name" name="anomalyName">
+        <option value="">Selecione</option>
+        <option value="Sussurro">Sussurro</option>
+        <option value="Catálogo">Catálogo</option>
+        <option value="Drenagem">Drenagem</option>
+        <option value="Cronometria">Cronometria</option>
+      </select>
+    </label>
+
+    <label>
+      Descrição da anomalia
+      <textarea rows="4" [(ngModel)]="character.anomaly.description" name="anomalyDescription"></textarea>
+    </label>
+  </div>
+
+  <div *ngIf="currentStep === 'reality'">
+    <h2>Realidade</h2>
+
+    <label>
+      Realidade
+      <select [(ngModel)]="character.reality.name" name="realityName">
+        <option value="">Selecione</option>
+        <option value="Cuidador">Cuidador</option>
+        <option value="Sobrecarregado">Sobrecarregado</option>
+        <option value="Romântico">Romântico</option>
+        <option value="Endividado">Endividado</option>
+      </select>
+    </label>
+
+    <label>
+      Descrição da realidade
+      <textarea rows="4" [(ngModel)]="character.reality.description" name="realityDescription"></textarea>
+    </label>
+
+    <label>
+      Gatilho da realidade
+      <textarea rows="3" [(ngModel)]="character.reality.gatilho" name="realityTrigger"></textarea>
+    </label>
+
+    <label>
+      Alívio de burnout
+      <textarea rows="3" [(ngModel)]="character.reality.alivio" name="realityRelief"></textarea>
+    </label>
+  </div>
+
+  <div *ngIf="currentStep === 'competency'">
+    <h2>Competência</h2>
+
+    <label>
+      Competência
+      <select [(ngModel)]="character.competency.name" name="competencyName">
+        <option value="">Selecione</option>
+        <option value="Relações Públicas">Relações Públicas</option>
+        <option value="Pesquisa e Desenvolvimento">Pesquisa e Desenvolvimento</option>
+        <option value="Barista">Barista</option>
+      </select>
+    </label>
+
+    <label>
+      Descrição da competência
+      <textarea rows="4" [(ngModel)]="character.competency.description" name="competencyDescription"></textarea>
+    </label>
+
+    <label>
+      Mérito
+      <textarea rows="3" [(ngModel)]="character.competency.merito" name="competencyMerit"></textarea>
+    </label>
+
+    <label>
+      Demérito
+      <textarea rows="3" [(ngModel)]="character.competency.demerito" name="competencyDemerit"></textarea>
+    </label>
+
+    <fieldset>
+      <legend>Qualidades</legend>
+
+      <label>
+        Atenção
+        <input type="number" min="0" max="9" [(ngModel)]="character.qualities.attention" name="qualityAttention" />
+      </label>
+
+      <label>
+        Empatia
+        <input type="number" min="0" max="9" [(ngModel)]="character.qualities.empathy" name="qualityEmpathy" />
+      </label>
+
+      <label>
+        Presença
+        <input type="number" min="0" max="9" [(ngModel)]="character.qualities.presence" name="qualityPresence" />
+      </label>
+
+      <label>
+        Duplicidade
+        <input type="number" min="0" max="9" [(ngModel)]="character.qualities.duplicity" name="qualityDuplicity" />
+      </label>
+
+      <label>
+        Iniciativa
+        <input type="number" min="0" max="9" [(ngModel)]="character.qualities.initiative" name="qualityInitiative" />
+      </label>
+
+      <label>
+        Profissionalismo
+        <input type="number" min="0" max="9" [(ngModel)]="character.qualities.professionalism" name="qualityProfessionalism" />
+      </label>
+
+      <label>
+        Dinamismo
+        <input type="number" min="0" max="9" [(ngModel)]="character.qualities.dynamism" name="qualityDynamism" />
+      </label>
+
+      <label>
+        Persistência
+        <input type="number" min="0" max="9" [(ngModel)]="character.qualities.persistence" name="qualityPersistence" />
+      </label>
+
+      <label>
+        Sutileza
+        <input type="number" min="0" max="9" [(ngModel)]="character.qualities.subtlety" name="qualitySubtlety" />
+      </label>
+    </fieldset>
+
+    <fieldset>
+      <legend>Questionário</legend>
+
+      <label>
+        Aparência
+        <textarea rows="2" [(ngModel)]="character.questionnaire.appearance" name="questionAppearance"></textarea>
+      </label>
+
+      <label>
+        Manifestação dos poderes
+        <textarea rows="2" [(ngModel)]="character.questionnaire.powersAppearance" name="questionPowers"></textarea>
+      </label>
+
+      <label>
+        Café favorito
+        <input type="text" [(ngModel)]="character.questionnaire.coffee" name="questionCoffee" />
+      </label>
+
+      <label>
+        Observações
+        <textarea rows="2" [(ngModel)]="character.questionnaire.others" name="questionOthers"></textarea>
+      </label>
+    </fieldset>
+  </div>
+
+  <div>
+    <button type="button" *ngIf="currentStepIndex > 0" (click)="prevStep()">Voltar</button>
+    <button type="button" [disabled]="!isFormValid() && isLastStep" (click)="nextStep()">{{ isLastStep ? 'Salvar personagem' : 'Próximo' }}</button>
+  </div>
+</section>
