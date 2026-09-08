@@ -28,7 +28,6 @@ p {
   background: #fff;
   color: #111;
   padding: 10px 16px;
-  border-radius: 10px;
   font-weight: 700;
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -183,7 +182,6 @@ section > div:last-of-type {
 
 section > div:last-of-type button {
   border: none;
-  border-radius: 10px;
   padding: 12px 20px;
   background: #111;
   color: #fff;

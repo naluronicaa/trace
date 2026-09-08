@@ -199,6 +199,6 @@ export class CreateCharacterSheet {
     window.location.reload();
     this.character = createDefaultCharacter();
     this.currentStep = 'anomaly';
-    window.alert('Personagem salvo no localStorage.');
+    window.alert('Personagem Salvo!');
   }
 }

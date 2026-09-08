@@ -3,10 +3,12 @@ html, body {
   padding: 0;
   width: 100%;
   min-height: 100%;
+  font-family: 'Manrope', sans-serif;
 }
 
 body {
   overflow-x: hidden;
+  font-family: 'Manrope', sans-serif;
 }
 
 app-root {

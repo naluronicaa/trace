@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { mdiDelete } from '@mdi/js';
 
 import type { Character } from '../models/character.model';
 
@@ -12,6 +13,7 @@ import type { Character } from '../models/character.model';
   styleUrl: './characters.css',
 })
 export class Characters implements OnInit, OnDestroy {
+  protected readonly mdiDeletePath = mdiDelete;
   protected characters: Character[] = [];
 
   protected get canCreateNewCharacter(): boolean {
@@ -34,6 +36,22 @@ export class Characters implements OnInit, OnDestroy {
   protected loadCharacters(): void {
     const raw = localStorage.getItem('trace-personagens');
     this.characters = raw ? (JSON.parse(raw) as Character[]) : [];
+  }
+
+  protected deleteCharacter(characterId: number): void {
+    const confirmed = window.confirm('Deseja apagar este colaborador?');
+
+    if (!confirmed) {
+      return;
+    }
+
+    const raw = localStorage.getItem('trace-personagens');
+    const list = raw ? (JSON.parse(raw) as Character[]) : [];
+    const updated = list.filter((character) => Number(character.id) !== Number(characterId));
+
+    localStorage.setItem('trace-personagens', JSON.stringify(updated));
+    this.loadCharacters();
+    window.dispatchEvent(new Event('trace-personagens-updated'));
   }
 
   protected onUploadCharacter(event: Event): void {

@@ -42,7 +42,6 @@ h1 {
   align-items: center;
   justify-content: center;
   padding: 10px 18px;
-  border-radius: 10px;
   text-decoration: none;
   font-weight: 700;
   cursor: pointer;
@@ -85,8 +84,8 @@ h1 {
   padding: 0;
   margin: 0;
   width: min(900px, 100%);
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  display: flex;
+  flex-direction: column;
   gap: 18px;
 }
 
@@ -103,13 +102,43 @@ h1 {
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.08);
 }
 
+.character-card {
+  position: relative;
+}
+
 .character-link {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  padding: 18px 20px;
+  padding: 18px 20px 12px;
   text-decoration: none;
   color: #111;
+}
+
+.delete-button {
+  position: absolute;
+  right: 14px;
+  top: 14px;
+  border: none;
+  background: transparent;
+  color: #b51d1d;
+  cursor: pointer;
+  line-height: 1;
+  padding: 6px;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.delete-button:hover {
+  background: rgba(181, 29, 29, 0.08);
+}
+
+.delete-icon {
+  width: 18px;
+  height: 18px;
+  display: block;
 }
 
 .character-head {

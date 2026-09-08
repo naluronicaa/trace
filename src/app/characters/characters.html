@@ -30,14 +30,24 @@
               <small>{{ character.pronouns || 'pronomes não definidos' }}</small>
             </div>
             <div class="character-meta">
-                <span><span class="meta-anomaly">Anomalia</span> - {{ character.anomaly.name || 'Não definida' }}</span>
-                <span><span class="meta-reality">Realidade</span> - {{ character.reality.name || 'Não definida' }}</span>
-                <span><span class="meta-competency">Competencia</span> - {{ character.competency.name || 'Não definida' }}</span>
+              <span><span class="meta-anomaly">Anomalia</span> - {{ character.anomaly.name || 'Não definida' }}</span>
+              <span><span class="meta-reality">Realidade</span> - {{ character.reality.name || 'Não definida' }}</span>
+              <span><span class="meta-competency">Competencia</span> - {{ character.competency.name || 'Não definida' }}</span>
             </div>
           </div>
-
-          
         </a>
+
+        <button
+          type="button"
+          class="delete-button"
+          aria-label="Apagar colaborador"
+          title="Apagar colaborador"
+          (click)="deleteCharacter(character.id)"
+        >
+          <svg aria-hidden="true" class="delete-icon">
+            <path [attr.d]="mdiDeletePath" fill="currentColor"></path>
+          </svg>
+        </button>
       </li>
     </ul>
   </div>
